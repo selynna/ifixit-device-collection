@@ -12,7 +12,6 @@ html, body {
 
 body {
     font-family: Lato, sans-serif;
-    padding-left: 30px;
 
     
 }
@@ -27,41 +26,93 @@ body {
     font-size: 2em;
 }
 
-.content {
-    width: 100%; 
+.titles {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 1%;
+}
+
+.your-bag {
+    display: inline-block;
+    width: 49%;
+    /* margin-left: 19%; */
+    /* margin-right: 19%; */
+}
+
+.list-devices {
+    width: 49%;
+    display: inline-block;
+    /* margin-left: 19%; */
+    /* margin-right: 19%; */
 }
 
 .container {
-    display: flex;
-    display: -webkit-flex;
-    align-items: center;
-    justify-content: center;
-    flex-direciton: row;
-    flex-wrap: wrap;
-    flex-flow: row wrap;
-}
-
-.content-block {
-    border: 1px solid black;
-    padding: 10px;
-    margin: 20px;
     text-align: center;
+    display: flex;
 }
 
-.content-title {
-    margin-bottom: 5px;
-    margin-top: 5px;
+.bag {
+    border: solid 1px black;
+    width: 49%;
+    display: inline-block;
+    margin-left: 6%;
+    margin-right: 6%;
+    height: 50%;
+}
+
+.device-list {
+    border: solid 1px blue;
+    width: 49%;
+    display: inline-block;
+    margin-left: 6%;
+    margin-right: 6%;
+    height: 50%;
+}
+
+.device-list div div {
+    background: white;
+    padding: 20px;
+    min-height: 250px;
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 100%;
+}
+
+.device-list div div, .tabs li a {
+    border: 1px solid #ccc;
+}
+
+.tabs {
+    list-style: none;
+}
+
+.tabs li {
+    display: inline;
+}
+
+.tabs li a {
+    color: black;
+}
+
+.tabs li a:hover {
+    background: #ccc;
+}
+
+.group:after {
+    visibility: hidden;
     display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
 }
 
-.content-photo {
-    width: 100px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    display: block;
+.box-wrap {
+    position: relative;
+    min-height: 250px;
 }
 
-.content-qty {
-    font-size: 0.75em;
-    float: left;
+#box-one:target, #box-two:target, #box-three:target {
+    z-index: 1;                                  
 }
