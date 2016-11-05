@@ -7,7 +7,6 @@
 html, body {
     width: 100%;
     height: 100%;
-    overflow: hidden;
 }
 
 body {
@@ -57,7 +56,32 @@ body {
     display: inline-block;
     margin-left: 6%;
     margin-right: 6%;
-    height: 50%;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    cursor: default;
+    overflow-x: hidden;
+    text-align: left;
+}
+
+.search-bar {
+    margin-top: 3px;
+    width: 95%;
+    margin-left: 1%;
+    margin-right: 1%;
+    border: 1px solid purple;
+    padding: 6px;
+}
+
+.bag-tabs {
+    list-style: none;
+    text-align: left;
+}
+
+.bag-tabs li {
+    display: block;
+    border: 1px solid green;
+    display: inline-block;
+    
 }
 
 .device-list {
@@ -66,22 +90,11 @@ body {
     display: inline-block;
     margin-left: 6%;
     margin-right: 6%;
-    height: 50%;
-    overflow: auto;
-    float: left;
-}
-
-.device-list div div {
-    padding: 20px;
-    min-height: 250px;
-    position: absolute;
-    top: -1px;
-    left: 0;
-    width: 100%;
-}
-
-.device-list div div, .tabs li a {
-    border: 1px solid #ccc;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    text-align: center;
+    cursor: default;
 }
 
 .tabs {
@@ -92,47 +105,14 @@ body {
 .tabs li {
     display: block;
     border: 1px solid red;
+    display: inline-block;
 }
 
-.tabs li a {
-    color: black;
-    text-align: center;
-    width: 100%;
-}
-
-.tabs .content {
-    position: absolute;
-    height: 100%;
-    width: 0px;
-    overflow: hidden;
-    opacity: 0;
-
-}
-
-.tabs .content.visible {
-    width: calc(100% -150px);
-    overflow: scroll;
-    opacity: 1;
-}
-
-.tabs li a:hover {
-    background: #ccc;
-}
-
-.group:after {
-    visibility: hidden;
+.list-of-devices {
+    background-color: #C7C7C7;
+    padding: 2px;
+    margin: 4px;
     display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0;
-}
-
-.box-wrap {
-    position: relative;
-    min-height: 250px;
-}
-
-#box-one:target, #box-two:target, #box-three:target {
-    z-index: 1;                                  
+    border: 1px solid red;
+    display: inline-block;
 }
