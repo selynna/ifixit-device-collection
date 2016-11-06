@@ -60,7 +60,6 @@ body {
     box-sizing: border-box;
     cursor: default;
     overflow-x: hidden;
-    text-align: left;
 }
 
 .search-bar {

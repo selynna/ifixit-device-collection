@@ -33,6 +33,7 @@ function getInitialItems() {
 
 var listOfDevices = [];
 var listOfBagDevices = [];
+
 $.get("https://www.ifixit.com/api/2.0/wikis/CATEGORY?display=hierarchy", function(data) {
     itemsJSON = JSON.stringify(data.display_titles);
     var parsedJSON = $.parseJSON(itemsJSON);
@@ -98,32 +99,56 @@ $('#device-search').on('keyup', function() {
         $('.tabs').prepend($('.list-of-devices'))
     } else {
         $.get("https://www.ifixit.com/api/2.0/suggest/" + deviceInputValue + "?doctypes=device", function(data) {
-            $('.list-of-devices').detach();
             var parsedSuggestions = $.parseJSON(JSON.stringify(data.results));
-            for (var i = 0; i < 10; i++) {
-                var value = parsedSuggestions[i].display_title;
-                console.log(parsedSuggestions[i].display_title);
-                var newLi = document.createElement("li");
-                newContent = document.createTextNode(value.trim());
-                newLi.appendChild(newContent);
-                newLi.className = "list-of-devices";
-                newLi.id = value.trim();
+            for (i = 0; i < listOfBagDevices.length; i++) {
+                document.getElementById("tabs").appendChild(listOfBagDevices[i]);
+            }
+            if (parsedSuggestions.length == 0) {
+                console.log("num suggestion = 0");
+                $('.list-of-devices').detach();
+                for (i = 0; i < listOfBagDevices.length; i++) {
+                    document.getElementById("bag-tabs").appendChild(listOfBagDevices[i]);
+                }
+                // var content = document.createTextNode("No results");
+                // var newEle = document.createElement("li");
+                // newEle.appendChild(content);
+                // var group = document.getElementById("tabs");
+                // noResultList.push("content");
+                // group.appendChild(noResultList[0]);
+            } else {
+                for (i = 0; i < listOfBagDevices.length; i++) {
+                    document.getElementById("bag-tabs").appendChild(listOfBagDevices[i]);
+                }
+                for (var i = 0; i < 10; i++) {
+                    var value = parsedSuggestions[i].display_title;
+                    console.log(parsedSuggestions[i].display_title);
+                    var newLi = document.createElement("li");
+                    newContent = document.createTextNode(value.trim());
+                    newLi.appendChild(newContent);
+                    newLi.className = "list-of-devices";
+                    newLi.id = value.trim();
 
-                var group = document.getElementById("tabs");
-                group.appendChild(newLi);
+                    var group = document.getElementById("tabs");
+                    group.appendChild(newLi);
+                }
             }
         });
         
     }
     console.log(deviceInputValue);
+    detectHover();
 
-    // $.get("https://www.ifixit.com/api/2.0/search/" + deviceInputValue + "?filter=item", function(data) {
-    //     var parsedSuggestions = $.parseJSON(JSON.stringify(data));
-    //     console.log(parsedSuggestions);
-    //     // for (var i = 0; i <= 10; i++) {
-    //     //     console.log(parsedSuggestions[i].display_title);
-    //     // }
-    // });
-    
 });
 
+function detectHover() {
+    var isHovered = $('.device-list').is(":hover");
+    console.log(isHovered);
+    if (isHovered == false) {
+        console.log("fajlksf");
+        $('#device-search').val("");
+    } else {
+        ;
+    }
+
+    
+}
