@@ -49,36 +49,22 @@ $('.device-list').css('max-height', $(window).height()/3 * 2);
 $('.bag').css('max-height', $(window).height() / 3 * 2);
 $('.bag').css('min-height', $(window).height() / 3 * 2);
 
-function getId() {
-    var boxId = "";
-    $('.list-of-devices').mouseover(function() {
-        // console.log(this.id);
-        boxId = this.id;
-        return this.id;
-    })
-    console.log(boxId);
-}
-
 function moveElements() {
-    // var boxId = document.getElementById(getId());
-    // console.log(boxId);
-    // if (boxId) {
-    //     boxId.addEventListener("click", function() {
-    //         console.log("clicked");
-    //         console.log(this.id);
-    //         $(this.id).appendTo('.bag-tabs');
-    //     })
-    // }
     var boxId = "";
-    $('.list-of-devices').mouseover(function() {
+
+    $('.list-of-devices').click(function() {
         boxId = document.getElementById(this.id);
-        if (boxId) {
-            boxId.addEventListener("click", function() {
-                console.log(boxId);
-                console.log("clicked");
-                $(boxId).appendTo('.bag-tabs');
-            })
+        console.log(boxId);
+        if ($(boxId).parents('.tabs').length == 1) {
+            console.log("true");
+            $(boxId).className = "bag-list-of-devices";
+            $(this).appendTo('.bag-tabs');
         }
+        else { 
+            // ($(boxId).parents('.bag-tabs').length == 1){
+            $(this).appendTo('.tabs');
+        }
+        
     })
 
 }
