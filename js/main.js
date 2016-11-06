@@ -1,3 +1,7 @@
+$('.device-list').css('max-height', $(window).height()/3 * 2);
+$('.bag').css('max-height', $(window).height() / 3 * 2);
+$('.bag').css('min-height', $(window).height() / 3 * 2);
+
 // $.get("https://www.ifixit.com/api/2.0/suggest/phone?doctypes=device", function(data) {
 //     console.log(data);
 // });
@@ -24,45 +28,57 @@
 // });
 
 function getInitialItems() {
-    $.get("https://www.ifixit.com/api/2.0/wikis/CATEGORY?display=hierarchy", function(data) {
-        itemsJSON = JSON.stringify(data.display_titles);
-
-        var parsedJSON = $.parseJSON(itemsJSON);
-        $.each(parsedJSON, function(key, value) {
-            // console.log(value);
-            var newLi = document.createElement("li");
-            newContent = document.createTextNode(value.trim());
-            newLi.appendChild(newContent);
-            newLi.className = "list-of-devices";
-            newLi.id = value.trim();
-
-            var group = document.getElementById("tabs");
-            group.appendChild(newLi);
-        });
-        
-        $(".test").html(data.display_titles);
-        moveElements();
-    });
+    
 }
 
+var listOfDevices = [];
+var listOfBagDevices = [];
+$.get("https://www.ifixit.com/api/2.0/wikis/CATEGORY?display=hierarchy", function(data) {
+    itemsJSON = JSON.stringify(data.display_titles);
+    var parsedJSON = $.parseJSON(itemsJSON);
 
+    $.each(parsedJSON, function(key, value) {
+        // console.log(value);
+        var newLi = document.createElement("li");
+        newContent = document.createTextNode(value.trim());
+        newLi.appendChild(newContent);
+        newLi.className = "list-of-devices";
+        newLi.id = value.trim();
 
-$('.device-list').css('max-height', $(window).height()/3 * 2);
-$('.bag').css('max-height', $(window).height() / 3 * 2);
-$('.bag').css('min-height', $(window).height() / 3 * 2);
+        listOfDevices.push(newLi);
+    });
+    
+    console.log(listOfDevices[0]);
+    var i = 0;
+    while(i < listOfDevices.length) {
+        var group = document.getElementById("tabs");
+        group.appendChild(listOfDevices[i]);
+        i++;
+    }
+    moveElements();
+});
 
 function moveElements() {
     var boxId = "";
-
+    var indexDeviceList;
+    var i = 0;
     $('.list-of-devices').click(function() {
         boxId = document.getElementById(this.id);
-        console.log(boxId);
+        indexDeviceList = listOfDevices.indexOf(boxId);
+        var elementInArray = listOfDevices[indexDeviceList];
+
         if ($(boxId).parents('.tabs').length == 1) {
             console.log("true");
-            $(boxId).className = "bag-list-of-devices";
-            $(this).appendTo('.bag-tabs');
+            listOfBagDevices.push(elementInArray);
+            listOfDevices.splice(indexDeviceList, 1);
+            for (i = 0; i < listOfBagDevices.length; i++) {
+                document.getElementById("bag-tabs").appendChild(listOfBagDevices[i]);
+            }
         }
         else { 
+            listOfDevices.push(elementInArray);
+            listOfBagDevices.splice(indexDeviceList, 1);
+            // document.getElementById("tabs").appendChild(elementInArray);
             $(this).appendTo('.tabs');
         }
         
@@ -73,12 +89,12 @@ function moveElements() {
 $('#device-search').on('keyup', function() {
     var deviceInputValue = $('#device-search').val();
     if (deviceInputValue == "") {
-        getInitialItems();
+        $('.tabs').prepend($('.list-of-devices'))
     } else {
         $.get("https://www.ifixit.com/api/2.0/suggest/" + deviceInputValue + "?doctypes=device", function(data) {
             $('.list-of-devices').detach();
             var parsedSuggestions = $.parseJSON(JSON.stringify(data.results));
-            for (var i = 0; i < parsedSuggestions.length; i++) {
+            for (var i = 0; i < 10; i++) {
                 var value = parsedSuggestions[i].display_title;
                 console.log(parsedSuggestions[i].display_title);
                 var newLi = document.createElement("li");
