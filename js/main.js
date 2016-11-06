@@ -61,23 +61,29 @@ $.get("https://www.ifixit.com/api/2.0/wikis/CATEGORY?display=hierarchy", functio
 function moveElements() {
     var boxId = "";
     var indexDeviceList;
+    var indexBagList;
     var i = 0;
     $('.list-of-devices').click(function() {
         boxId = document.getElementById(this.id);
         indexDeviceList = listOfDevices.indexOf(boxId);
         var elementInArray = listOfDevices[indexDeviceList];
+        indexBagList = listOfBagDevices.indexOf(boxId);
+        var elementInBagArray = listOfBagDevices[indexBagList];
 
         if ($(boxId).parents('.tabs').length == 1) {
             console.log("true");
-            listOfBagDevices.push(elementInArray);
             listOfDevices.splice(indexDeviceList, 1);
+            listOfBagDevices.push(elementInArray);
             for (i = 0; i < listOfBagDevices.length; i++) {
                 document.getElementById("bag-tabs").appendChild(listOfBagDevices[i]);
             }
         }
         else { 
-            listOfDevices.push(elementInArray);
-            listOfBagDevices.splice(indexDeviceList, 1);
+            listOfBagDevices.splice(indexBagList, 1);
+            listOfDevices.push(elementInBagArray);
+            for (i = 0; i < listOfBagDevices.length; i++) {
+                console.log(listOfBagDevices[i]);
+            }
             // document.getElementById("tabs").appendChild(elementInArray);
             $(this).appendTo('.tabs');
         }
