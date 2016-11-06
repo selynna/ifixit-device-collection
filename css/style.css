@@ -17,8 +17,9 @@ body {
 
 .navbar {
     width: 100%;
-    text-align: right; 
+    text-align: center; 
     padding: 20px;
+    font-size: 36px;
 }
 
 .intro {
@@ -51,7 +52,7 @@ body {
 }
 
 .bag {
-    border: solid 1px black;
+    border: solid 1px #7A7A7A;
     width: 49%;
     display: inline-block;
     margin-left: 6%;
@@ -60,6 +61,7 @@ body {
     box-sizing: border-box;
     cursor: default;
     overflow-x: hidden;
+    border-radius: 4px;
 }
 
 .search-bar {
@@ -67,7 +69,8 @@ body {
     width: 95%;
     margin-left: 1%;
     margin-right: 1%;
-    border: 1px solid purple;
+    border: 1px solid #C2C2C2;
+    border-radius: 3px;
     padding: 6px;
 }
 
@@ -78,13 +81,14 @@ body {
 
 .bag-tabs li {
     display: block;
-    border: 1px solid green;
+    /* border: 1px solid green; */
     display: inline-block;
     
 }
 
 .device-list {
-    border: solid 1px blue;
+    border: solid 1px #7A7A7A;
+    border-radius: 4px;
     width: 49%;
     display: inline-block;
     margin-left: 6%;
@@ -101,17 +105,19 @@ body {
     text-align: left;
 }
 
-.tabs li {
-    display: block;
-    border: 1px solid red;
-    display: inline-block;
-}
+/* .tabs li { */
+/*     display: block; */
+/*     /\* border: 1px solid red; *\/ */
+/*     display: inline-block; */
+/* } */
 
 .list-of-devices {
     background-color: #C7C7C7;
     padding: 2px;
     margin: 4px;
     display: block;
-    border: 1px solid red;
+    /* border: 1px solid red; */
+    box-shadow: 0.5px 0.5px 1px 1px #7A7A7A;
+    border-radius: 3px;
     display: inline-block;
 }
