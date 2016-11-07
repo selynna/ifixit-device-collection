@@ -74,6 +74,7 @@ function moveElements() {
                 newSubLi.id = key;
                 group.appendChild(newSubLi);
             });
+            $('.path').text(tmpArr.join(" > "));
             
         }
 
