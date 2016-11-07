@@ -54,7 +54,7 @@ function moveElements() {
     } else {
         $('.path').show();
     }
-    $(document).on('click', '.list-of-devices', function() {
+    $(document).on('click', '.tabs .list-of-devices', function() {
         tmp = parsedJSON;
         console.log("clicked");
         console.log(tmpArr.length);
@@ -88,6 +88,9 @@ function moveElements() {
         }
 
         
+    })
+    $(document).on('click', '.bag-tabs .list-of-devices', function() {
+        $(this).detach();
     })
 
     $('.back').click(function() {
@@ -128,25 +131,31 @@ function moveElements() {
 
 $('#device-search').on('keyup', function() {
     var deviceInputValue = $('#device-search').val();
+    var group = document.getElementById("tabs");
     if (deviceInputValue == "") {
-        $('.tabs').prepend($('.list-of-devices'))
+        $('.tabs .list-of-devices').detach();
+        console.log("detached");
+        $.each(parsedJSON, function(key, value) {
+            var newLi = document.createElement("li");
+            newContent = document.createTextNode(key);
+            newLi.appendChild(newContent);
+            newLi.className = "list-of-devices";
+            newLi.id = key;
+            group.appendChild(newLi);
+
+        });
+        
     } else {
         $.get("https://www.ifixit.com/api/2.0/suggest/" + deviceInputValue + "?doctypes=device", function(data) {
             var parsedSuggestions = $.parseJSON(JSON.stringify(data.results));
-            for (i = 0; i < listOfBagDevices.length; i++) {
-                document.getElementById("tabs").appendChild(listOfBagDevices[i]);
-            }
+            // for (i = 0; i < listOfBagDevices.length; i++) {
+            //     document.getElementById("tabs").appendChild(listOfBagDevices[i]);
+            // }
             if (parsedSuggestions.length == 0) {
-                console.log("num suggestion = 0");
-                $('.tabs .list-of-devices').detach();
-                for (i = 0; i < listOfBagDevices.length; i++) {
-                    document.getElementById("bag-tabs").appendChild(listOfBagDevices[i]);
-                }
+                $('.tabs .list-of-devices').remove();
             } else {
-                for (i = 0; i < listOfBagDevices.length; i++) {
-                    document.getElementById("bag-tabs").appendChild(listOfBagDevices[i]);
-                }
-                for (var i = 0; i < 10; i++) {
+                $('.tabs .list-of-devices').detach();
+                for (var i = 0; i < parsedSuggestions.length; i++) {
                     var value = parsedSuggestions[i].display_title;
                     console.log(parsedSuggestions[i].display_title);
                     var newLi = document.createElement("li");
