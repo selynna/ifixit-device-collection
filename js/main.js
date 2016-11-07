@@ -1,6 +1,6 @@
-$('.device-list').css('max-height', $(window).height()/3 * 2);
-$('.bag').css('max-height', $(window).height() / 3 * 2);
-$('.bag').css('min-height', $(window).height() / 3 * 2);
+$('.device-list').css('max-height', $(window).height());
+$('.bag').css('max-height', $(window).height());
+$('.bag').css('min-height', $(window).height());
 
 // $.get("https://www.ifixit.com/api/2.0/suggest/phone?doctypes=device", function(data) {
 //     console.log(data);
@@ -33,18 +33,20 @@ function getInitialItems() {
 
 var listOfDevices = [];
 var listOfBagDevices = [];
-
+var itemsJSON;
+var parsedJSON;
 $.get("https://www.ifixit.com/api/2.0/wikis/CATEGORY?display=hierarchy", function(data) {
-    itemsJSON = JSON.stringify(data.display_titles);
-    var parsedJSON = $.parseJSON(itemsJSON);
+    itemsJSON = JSON.stringify(data.hierarchy);
+    parsedJSON = $.parseJSON(itemsJSON);
 
+    // console.log(data.hierarchy);
     $.each(parsedJSON, function(key, value) {
-        // console.log(value);
+        // console.log(key);
         var newLi = document.createElement("li");
-        newContent = document.createTextNode(value.trim());
+        newContent = document.createTextNode(key);
         newLi.appendChild(newContent);
-        newLi.className = "list-of-devices";
-        newLi.id = value.trim();
+        newLi.className = "list-of-devices device";
+        newLi.id = key;
 
         listOfDevices.push(newLi);
     });
@@ -57,38 +59,120 @@ $.get("https://www.ifixit.com/api/2.0/wikis/CATEGORY?display=hierarchy", functio
         i++;
     }
     moveElements();
+
+
 });
+
+// var newLi = document.createElement("li");
+// newContent = document.createTextNode(key);
+// newLi.appendChild(newContent);
+// newLi.className = "list-of-devices device";
+// newLi.id = key;
+
+// listOfDevices.push(newLi);
 
 function moveElements() {
     var boxId = "";
     var indexDeviceList;
     var indexBagList;
     var i = 0;
-    $('.list-of-devices').click(function() {
-        boxId = document.getElementById(this.id);
-        indexDeviceList = listOfDevices.indexOf(boxId);
-        var elementInArray = listOfDevices[indexDeviceList];
-        indexBagList = listOfBagDevices.indexOf(boxId);
-        var elementInBagArray = listOfBagDevices[indexBagList];
+    var group = document.getElementById("tabs");
+    var tmp2 = parsedJSON;
+    var tmp = parsedJSON;
+    var tmpArr = [];
+    if (tmpArr.length == 0) {
+        console.log("legnth = 0");
+        $('.back').hide();
+    } else {
+        $('.back').show();
+    }
+    $(document).on('click', '.list-of-devices', function() {
+        console.log("clicked");
+        tmp2 = tmp;
+        if (tmp[this.id] == null) {
+            var newSubLi = document.createElement("li");
+            newContent = document.createTextNode(this.id);
+            newSubLi.appendChild(newContent);
+            newSubLi.className = "list-of-devices";
+            document.getElementById("bag-tabs").appendChild(newSubLi);
+        } else {
+            tmp = tmp[this.id];
+            $('.list-of-devices').detach();
+            tmpArr.push(this.id);
+            $('.back').show();
+            console.log(tmpArr);
+            $.each(tmp, function(key, value) {
+                // if (value == null) {
+                //     var newSubLi = document.createElement("li");
+                //     newContent = document.createTextNode(key);
+                //     newSubLi.appendChild(newContent);
+                //     newSubLi.className = "list-of-devices";
+                //     document.getElementById("bag-tabs").appendChild(newSubLi);
+                // }
+                console.log(key);
+                var newSubLi = document.createElement("li");
+                newContent = document.createTextNode(key);
+                newSubLi.appendChild(newContent);
+                newSubLi.className = "list-of-devices";
+                newSubLi.id = key;
+                group.appendChild(newSubLi);
+            });
+            
+        }
 
-        if ($(boxId).parents('.tabs').length == 1) {
-            console.log("true");
-            listOfDevices.splice(indexDeviceList, 1);
-            listOfBagDevices.push(elementInArray);
-            for (i = 0; i < listOfBagDevices.length; i++) {
-                document.getElementById("bag-tabs").appendChild(listOfBagDevices[i]);
-            }
-        }
-        else { 
-            listOfBagDevices.splice(indexBagList, 1);
-            listOfDevices.push(elementInBagArray);
-            for (i = 0; i < listOfBagDevices.length; i++) {
-                console.log(listOfBagDevices[i]);
-            }
-            // document.getElementById("tabs").appendChild(elementInArray);
-            $(this).appendTo('.tabs');
-        }
+        // boxId = document.getElementById(this.id);
+        // indexDeviceList = listOfDevices.indexOf(boxId);
+        // var elementInArray = listOfDevices[indexDeviceList];
+        // indexBagList = listOfBagDevices.indexOf(boxId);
+        // var elementInBagArray = listOfBagDevices[indexBagList];
+
+        // if ($(boxId).parents('.tabs').length == 1) {
+        //     console.log("true");
+        //     listOfDevices.splice(indexDeviceList, 1);
+        //     listOfBagDevices.push(elementInArray);
+        //     for (i = 0; i < listOfBagDevices.length; i++) {
+        //         document.getElementById("bag-tabs").appendChild(listOfBagDevices[i]);
+        //     }
+        // }
+        // else { 
+        //     listOfBagDevices.splice(indexBagList, 1);
+        //     listOfDevices.push(elementInBagArray);
+        //     for (i = 0; i < listOfBagDevices.length; i++) {
+        //         console.log(listOfBagDevices[i]);
+        //     }
+        //     // document.getElementById("tabs").appendChild(elementInArray);
+        //     $(this).appendTo('.tabs');
+        // }
         
+    })
+
+
+    $('.back').click(function() {
+        var location = parsedJSON; 
+        for (var i = 0; i < tmpArr.length - 1; i++) {
+            location = location[tmpArr[i]];
+            // console.log(location);
+        }
+        console.log(location);
+        $('.list-of-devices').remove();
+        $.each(location, function(key, value) {
+            console.log(key);
+            var newSubLi = document.createElement("li");
+            newContent = document.createTextNode(key);
+            newSubLi.appendChild(newContent);
+            newSubLi.className = "list-of-devices";
+            newSubLi.id = key;
+            group.appendChild(newSubLi);
+            // }                    
+
+        });
+        tmpArr.pop();
+        if (tmpArr.length == 0) {
+            console.log("legnth = 0");
+            $('.back').hide();
+        } else {
+            $('.back').show();
+        }
     })
 
 }

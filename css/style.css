@@ -32,40 +32,44 @@ body {
     margin-bottom: 1%;
 }
 
-.your-bag {
-    display: inline-block;
-    width: 49%;
-    /* margin-left: 19%; */
-    /* margin-right: 19%; */
-}
+/* .your-bag { */
+/*     display: inline-block; */
+/*     width: 49%; */
+/*     /\* margin-left: 19%; *\/ */
+/*     /\* margin-right: 19%; *\/ */
+/* } */
 
-.list-devices {
-    width: 49%;
-    display: inline-block;
-    /* margin-left: 19%; */
-    /* margin-right: 19%; */
-}
+/* .list-devices { */
+/*     width: 49%; */
+/*     display: inline-block; */
+/*     /\* margin-left: 19%; *\/ */
+/*     /\* margin-right: 19%; *\/ */
+/* } */
 
 .container {
     text-align: center;
     display: flex;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .bag {
     border: solid 1px #7A7A7A;
-    width: 49%;
+    width: 35%;
     display: inline-block;
-    margin-left: 6%;
-    margin-right: 6%;
+    margin: 0;
     overflow-y: scroll;
     box-sizing: border-box;
     cursor: default;
     overflow-x: hidden;
     border-radius: 4px;
+    height: 100%;
 }
 
 .search-bar {
-    margin-top: 3px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     width: 95%;
     margin-left: 1%;
     margin-right: 1%;
@@ -89,10 +93,10 @@ body {
 .device-list {
     border: solid 1px #7A7A7A;
     border-radius: 4px;
-    width: 49%;
+    width: 65%;
     display: inline-block;
-    margin-left: 6%;
-    margin-right: 6%;
+    /* margin-left: 6%; */
+    /* margin-right: 6%; */
     overflow-y: scroll;
     box-sizing: border-box;
     overflow-x: hidden;
