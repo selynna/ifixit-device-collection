@@ -2,6 +2,7 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato:100,200,300,400,500,600,700,800">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <title>iFixit Device Collection</title>
     </head>
@@ -27,11 +28,15 @@
                 <div class="search">
                     <input class="search-bar" id="device-search" placeholder="Search for devices">
                 </div>
-                <div class="path-device">
-                    <span class="path"></span>
-                </div>
-                <div class="back-button">
-                    <button class="back">back</button>
+                <div class="path-button">
+                    <div class="back-button">
+                        <div class="back">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        </div>
+                   </div>
+                   <div class="path-device">
+                        <span class="path"></span>
+                   </div>
                 </div>
                 <ul class="tabs group" id="tabs">
                      <!-- elements get inserted dynamically through javascript  -->

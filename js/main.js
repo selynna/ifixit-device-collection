@@ -1,11 +1,13 @@
 $('.device-list').css('max-height', $(window).height());
 $('.bag').css('max-height', $(window).height());
 $('.bag').css('min-height', $(window).height());
+$('.back').hide();
 
 var listOfDevices = [];
 var listOfBagDevices = [];
 var itemsJSON;
 var parsedJSON;
+
 $.get("https://www.ifixit.com/api/2.0/wikis/CATEGORY?display=hierarchy", function(data) {
     itemsJSON = JSON.stringify(data.hierarchy);
     parsedJSON = $.parseJSON(itemsJSON);
@@ -46,12 +48,19 @@ function moveElements() {
     } else {
         $('.back').show();
     }
+
+    if (tmpArr.length == 1) {
+        $('.path').hide();
+    } else {
+        $('.path').show();
+    }
     $(document).on('click', '.list-of-devices', function() {
         tmp = parsedJSON;
         console.log("clicked");
+        console.log(tmpArr.length);
+        $('.path').show();
         $.each(tmpArr, function(index, value) {
             tmp = tmp[value];
-            console.log(tmp);
         })
         if (tmp[this.id] == null) {
             var newSubLi = document.createElement("li");
@@ -60,11 +69,11 @@ function moveElements() {
             newSubLi.className = "list-of-devices";
             document.getElementById("bag-tabs").appendChild(newSubLi);
         } else {
+            $('.path').text(tmpArr.join(" > "));
             tmp = tmp[this.id];
             $('.tabs .list-of-devices').detach();
             tmpArr.push(this.id);
             $('.back').show();
-            console.log(tmpArr);
             $.each(tmp, function(key, value) {
                 console.log(key);
                 var newSubLi = document.createElement("li");
@@ -82,7 +91,15 @@ function moveElements() {
     })
 
     $('.back').click(function() {
-        var location = parsedJSON; 
+        console.log(tmpArr.length);
+        console.log(tmpArr[0]);
+        var location = parsedJSON;
+        if (tmpArr.length == 1) {
+            console.log("length = 0");
+            $('.path').hide();
+        } else {
+            $('.path').show();
+        }
         for (var i = 0; i < tmpArr.length - 1; i++) {
             location = location[tmpArr[i]];
         }
@@ -95,12 +112,12 @@ function moveElements() {
             newSubLi.className = "list-of-devices";
             newSubLi.id = key;
             group.appendChild(newSubLi);
-            // }                    
+            $('.path').text(tmpArr.join(" > "));
 
         });
         tmpArr.pop();
+        $('.path').text(tmpArr.join(" > "));
         if (tmpArr.length == 0) {
-            console.log("legnth = 0");
             $('.back').hide();
         } else {
             $('.back').show();
@@ -146,19 +163,6 @@ $('#device-search').on('keyup', function() {
         
     }
     console.log(deviceInputValue);
-    detectHover();
 
 });
 
-function detectHover() {
-    var isHovered = $('.device-list').is(":hover");
-    console.log(isHovered);
-    if (isHovered == false) {
-        console.log("fajlksf");
-        $('#device-search').val("");
-    } else {
-        ;
-    }
-
-    
-}
