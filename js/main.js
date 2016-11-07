@@ -11,8 +11,13 @@ var bagDevicesArrToString;
 
 function setLocalStorage() {
     var group = document.getElementById("bag-tabs");
-    var newArray = localStorage.getItem("your-devices").split(",");
-    if(newArray != null) {
+    if (localStorage.getItem("your-devices") == null) {
+        return;
+    } else {
+        var newArray = localStorage.getItem("your-devices").split(",");
+    }
+    if(newArray.length != 0) {
+        console.log("flag");
         for (var i = 0; i < newArray.length; i++) {
             var key = newArray[i];
             var newLi = document.createElement("li");
@@ -20,7 +25,6 @@ function setLocalStorage() {
             newLi.appendChild(newContent);
             newLi.className = "list-of-devices device";
             newLi.id = key;
-
 
             group.appendChild(newLi);
         }
@@ -110,11 +114,28 @@ function moveElements() {
         
     })
     $(document).on('click', '.bag-tabs .list-of-devices', function() {
-        $(this).detach();
+        console.log("clicked");
+        var group = document.getElementById("bag-tabs");
+        listOfBagDevices = localStorage.getItem("your-devices").split(",");
         var index = listOfBagDevices.indexOf(this.id);
+        console.log(this.id);
+        console.log(index);
+        console.log(listOfBagDevices.length);
+        for (var i = 0; i < listOfBagDevices.length; i++) {
+            console.log(listOfBagDevices[i]);
+        }
         listOfBagDevices.splice(index, 1);
-        bagDevicesArrToString = listOfBagDevices.toString();
-        localStorage.setItem("your-devices", bagDevicesArrToString);
+        for (var i = 0; i < listOfBagDevices.length; i++) {
+            console.log(listOfBagDevices[i]);
+        }
+        $(this).detach();
+        if (listOfBagDevices.length == 0) {
+            console.log("rip");
+            localStorage.removeItem("your-devices");
+        } else {
+            bagDevicesArrToString = listOfBagDevices.toString();
+            localStorage.setItem("your-devices", bagDevicesArrToString);
+        }
     })
 
     $('.back').click(function() {
