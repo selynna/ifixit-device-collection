@@ -7,10 +7,34 @@ var listOfDevices = [];
 var listOfBagDevices = [];
 var itemsJSON;
 var parsedJSON;
+var bagDevicesArrToString;
+
+function setLocalStorage() {
+    var group = document.getElementById("bag-tabs");
+    var newArray = localStorage.getItem("your-devices").split(",");
+    if(newArray != null) {
+        for (var i = 0; i < newArray.length; i++) {
+            var key = newArray[i];
+            var newLi = document.createElement("li");
+            newContent = document.createTextNode(key);
+            newLi.appendChild(newContent);
+            newLi.className = "list-of-devices device";
+            newLi.id = key;
+
+
+            group.appendChild(newLi);
+        }
+    } else {
+        return 1;
+    }
+}
+
+setLocalStorage();
 
 $.get("https://www.ifixit.com/api/2.0/wikis/CATEGORY?display=hierarchy", function(data) {
     itemsJSON = JSON.stringify(data.hierarchy);
     parsedJSON = $.parseJSON(itemsJSON);
+    var group = document.getElementById("tabs");
 
     $.each(parsedJSON, function(key, value) {
         var newLi = document.createElement("li");
@@ -19,19 +43,11 @@ $.get("https://www.ifixit.com/api/2.0/wikis/CATEGORY?display=hierarchy", functio
         newLi.className = "list-of-devices device";
         newLi.id = key;
 
-        listOfDevices.push(newLi);
+
+        group.appendChild(newLi);
     });
-    
-    console.log(listOfDevices[0]);
-    var i = 0;
-    while(i < listOfDevices.length) {
-        var group = document.getElementById("tabs");
-        group.appendChild(listOfDevices[i]);
-        i++;
-    }
+
     moveElements();
-
-
 });
 
 function moveElements() {
@@ -42,6 +58,7 @@ function moveElements() {
     var group = document.getElementById("tabs");
     var tmp = parsedJSON;
     var tmpArr = [];
+
     if (tmpArr.length == 0) {
         console.log("legnth = 0");
         $('.back').hide();
@@ -68,6 +85,10 @@ function moveElements() {
             newSubLi.appendChild(newContent);
             newSubLi.className = "list-of-devices";
             document.getElementById("bag-tabs").appendChild(newSubLi);
+            listOfBagDevices.push(this.id);
+            console.log(listOfBagDevices);
+            bagDevicesArrToString = listOfBagDevices.toString();
+            localStorage.setItem("your-devices", bagDevicesArrToString);
         } else {
             $('.path').text(tmpArr.join(" > "));
             tmp = tmp[this.id];
@@ -75,7 +96,6 @@ function moveElements() {
             tmpArr.push(this.id);
             $('.back').show();
             $.each(tmp, function(key, value) {
-                console.log(key);
                 var newSubLi = document.createElement("li");
                 newContent = document.createTextNode(key);
                 newSubLi.appendChild(newContent);
@@ -91,6 +111,10 @@ function moveElements() {
     })
     $(document).on('click', '.bag-tabs .list-of-devices', function() {
         $(this).detach();
+        var index = listOfBagDevices.indexOf(this.id);
+        listOfBagDevices.splice(index, 1);
+        bagDevicesArrToString = listOfBagDevices.toString();
+        localStorage.setItem("your-devices", bagDevicesArrToString);
     })
 
     $('.back').click(function() {
@@ -148,9 +172,6 @@ $('#device-search').on('keyup', function() {
     } else {
         $.get("https://www.ifixit.com/api/2.0/suggest/" + deviceInputValue + "?doctypes=device", function(data) {
             var parsedSuggestions = $.parseJSON(JSON.stringify(data.results));
-            // for (i = 0; i < listOfBagDevices.length; i++) {
-            //     document.getElementById("tabs").appendChild(listOfBagDevices[i]);
-            // }
             if (parsedSuggestions.length == 0) {
                 $('.tabs .list-of-devices').remove();
             } else {

@@ -65,6 +65,7 @@ body {
     border-radius: 4px;
     height: 100%;
     color: #55A92C;
+    padding-left: 2%;
 
 }
 
@@ -113,7 +114,7 @@ body {
 .tabs {
     list-style: none;
     text-align: left;
-    padding-left: 10px;
+    padding-left: 2%;
     padding-right: 10px;
 }
 
@@ -161,11 +162,6 @@ body {
 }
 
 .back {
-    /* padding: 3px; */
-    /* border: solid 1px #fff; */
-    /* box-shadow: 0.5px 0.5px 1px 1px #C7C7C7; */
-    /* width: 35px; */
-    /* height: 35px; */
     padding-right: 8px;
     border-radius: 50%;
     font-size: 24px;
