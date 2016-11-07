@@ -174,6 +174,9 @@ $('#device-search').on('keyup', function() {
             var parsedSuggestions = $.parseJSON(JSON.stringify(data.results));
             if (parsedSuggestions.length == 0) {
                 $('.tabs .list-of-devices').remove();
+                tmpArr = [];
+                $('.path').text(tmpArr.join(" > "));
+                $('.back').hide();
             } else {
                 $('.tabs .list-of-devices').detach();
                 for (var i = 0; i < parsedSuggestions.length; i++) {
